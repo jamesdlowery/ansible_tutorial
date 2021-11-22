@@ -1,0 +1,20 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: Playbook is updating cached repository index
+    apt:
+      update_cache: yes
+
+  - name: Playbook is installing apahe2 package
+    apt:
+      name: apache2
+      state: latest
+
+  - name: Playbook is installing PHP support for Apahe
+    apt:
+      name: libapache2-mod-php
+      state: latest
+
