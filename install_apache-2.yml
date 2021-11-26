@@ -13,6 +13,7 @@
       state: latest
       update_cache: yes
     when: ansible_distribution == "Ubuntu"
+
 # Rocky
   - name: Playbook is installing apache2 and php packages for Rocky
     dnf:
