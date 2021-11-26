@@ -1,0 +1,71 @@
+---
+# ALL
+- hosts: all
+  become: true
+  pre_tasks:
+
+# Ubuntu
+  - name: Playbook is installing Updates (Ubuntu)
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+# Rocky
+  - name: Playbook is installing Updates (Rocky)
+    dnf:
+      update_only: yes 
+      update_cache: yes
+    when: ansible_distribution == "Rocky"
+
+# WEB SERVERS
+- hosts: web_servers
+  become: true
+  tasks:
+
+# Ubuntu
+  - name: Playbook is installing apache2 and php packages (Ubuntu)
+    apt:
+      name:
+        - apache2
+        - libapache2-mod-php
+      state: latest
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+# Rocky
+  - name: Playbook is installing apache2 and php packages (Rocky)
+    dnf:
+      name:
+        - httpd
+        - php
+      state: latest
+      update_cache: yes
+    when: ansible_distribution == "Rocky"
+
+# DB SERVERS
+- hosts: db_servers
+  become: true
+  tasks:
+
+  - name: Playbook is installing mariadb package (Rocky)
+    dnf:
+      name: mariadb
+      state: latest
+    when: ansible_distribution == "Rocky"
+
+  - name: Playbook is installing mariadb package (Ubuntu)
+    apt:
+      name: mariadb-server
+      state: latest
+    when: ansible_distribution == "Ubuntu"
+
+# FILE SERVERS
+- hosts: file_servers
+  become: true
+  tasks:
+
+  - name: Playbook is installing samba package
+    package:
+      name: samba
+      state: latest
